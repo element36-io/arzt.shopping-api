@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: arzt.shopping public API
+  description: API for https://arzt.shopping
+  version: '0.1'
+servers:
+  - url: https://europe-west6-cash36-prod-262508.cloudfunctions.net
+paths:
+  /testOrders:
+    get:
+      description: Auto generated using Swagger Inspector
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+          example: '2023-01-01'
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: demo
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+      servers:
+        - url: https://europe-west6-cash36-prod-262508.cloudfunctions.net
+    servers:
+      - url: https://europe-west6-cash36-prod-262508.cloudfunctions.net
