@@ -1,0 +1,30 @@
+name: Generate OpenAPI Documentation
+
+on:
+  push:
+    branches:
+      - main  # Replace with the name of your main branch, if different
+  pull_request:
+    branches:
+      - main  # Replace with the name of your main branch, if different
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate OpenAPI documentation
+      run: npm run generate-docs  # Replace with the appropriate command to generate your OpenAPI documentation
+
+    - name: Commit and push generated documentation
+      run: |
+        git config --global user.name "vladae36"
+        git add docs
+        git commit -m "Generate OpenAPI documentation"
+        git push
