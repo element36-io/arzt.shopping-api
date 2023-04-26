@@ -1,0 +1,13 @@
+{
+  "name": "my-api-docs",
+  "version": "1.0.0",
+  "description": "Example OpenAPI documentation",
+  "scripts": {
+    "generate-docs": "redoc-cli bundle openapi.yaml -o docs/index.html",
+    "deploy-docs": "gh-pages -d docs"
+  },
+  "devDependencies": {
+    "redoc-cli": "^0.11.1",
+    "gh-pages": "^3.2.3"
+  }
+}
