@@ -19,9 +19,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Generate OpenAPI documentation
-      run: npm run generate-docs  # Replace with the appropriate command to generate your OpenAPI documentation
-
+    - name: Generate Html
+      uses: openapi-generators/openapitools-generator-action@v1
+      with:
+        generator: html2
+        config-file: openapi-html-config.yml
+        openapi-file: api-spec.yml
+        
     - name: Commit and push generated documentation
       run: |
         git config --global user.name "vladae36"
