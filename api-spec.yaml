@@ -16,6 +16,7 @@ paths:
           in: query
           schema:
             type: string
+            format: date-time
           example: '2023-01-01'
         - name: x-api-key
           in: header
@@ -24,7 +25,7 @@ paths:
           example: demo
       responses:
         '200':
-          description: Auto generated using Swagger Inspector
+          description: Orders from a specific date
       servers:
         - url: https://europe-west6-cash36-prod-262508.cloudfunctions.net
 
