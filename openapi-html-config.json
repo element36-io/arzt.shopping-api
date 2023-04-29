@@ -1,0 +1,7 @@
+{
+    "appName":"API for arzt.shopping"
+    , "appDescription": "Get Orders from arzt.shopping"
+    , "infoEmail":"mail@arzt.shopping" 
+    , "infoUrl":"arzt.shopping"
+    , "generateAliasAsModel":true
+}

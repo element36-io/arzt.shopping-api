@@ -1,0 +1,97 @@
+{
+    "orders": [
+        {
+            "id": 5186871623920,
+            "app_id": 580111,
+            "created_at": "2023-04-11T22:21:16+02:00",
+            "email": "testtest@gmail.com",
+            "location_id": null,
+            "note": null,
+            "phone": null,
+            "tags": "Pickup Order",
+            "billing_address": {
+                "first_name": "Walter",
+                "address1": "Bahnmatt 25",
+                "phone": null,
+                "city": "Baar",
+                "zip": "6340",
+                "province": null,
+                "country": "Switzerland",
+                "last_name": "Strametz",
+                "address2": null,
+                "company": null,
+                "latitude": null,
+                "longitude": null,
+                "name": "Walter Strametz",
+                "country_code": "CH",
+                "province_code": null
+            },
+            "customer": {
+                "id": 5958064275696,
+                "email": "walter.strametz@gmail.com",
+                "accepts_marketing": false,
+                "created_at": "2021-11-17T21:09:19+01:00",
+                "updated_at": "2023-04-13T10:22:08+02:00",
+                "first_name": "Walter",
+                "last_name": "Strametz",
+                "orders_count": 47,
+                "last_order_id": 5186871623920,
+                "note": null,
+                "phone": null,
+                "tags": "newsletter, prospect",
+                "currency": "CHF",
+                "last_order_name": "#1493",
+                "accepts_marketing_updated_at": "2021-12-10T17:13:39+01:00",
+                "marketing_opt_in_level": null,
+                "default_address": {
+                    "id": 8026196574448,
+                    "customer_id": 5958064275696,
+                    "first_name": "Walter",
+                    "last_name": "Strametz",
+                    "company": null,
+                    "address1": "Bahnmatt 25",
+                    "address2": null,
+                    "city": "Baar",
+                    "province": null,
+                    "country": "Switzerland",
+                    "zip": "6340",
+                    "phone": null,
+                    "name": "Walter Strametz",
+                    "province_code": null,
+                    "country_code": "CH",
+                    "country_name": "Switzerland",
+                    "default": true
+                },
+                "date_of_birth": "1975-12-02"
+            },
+            "line_items": [
+                {
+                    "id": 13022579359984,
+                    "fulfillable_quantity": 1,
+                    "grams": 332,
+                    "name": "3TC Trink Lös 10 mg/ml o Alkohol Fl 240 ml",
+                    "product_id": 8201979724016,
+                    "quantity": 1,
+                    "sku": "2050172",
+                    "title": "3TC Trink Lös 10 mg/ml o Alkohol Fl 240 ml",
+                    "variant_id": 43901209608432,
+                    "variant_title": null,
+                    "vendor": "ViiV Healthcare GmbH"
+                },
+                {
+                    "id": 13022579392752,
+                    "fulfillable_quantity": 1,
+                    "grams": 72,
+                    "name": "KENACORT A Tinkt Tropffl 50 ml - 1 ml",
+                    "product_id": 8201849897200,
+                    "quantity": 1,
+                    "sku": "574385",
+                    "title": "KENACORT A Tinkt Tropffl 50 ml",
+                    "variant_id": 43767481172208,
+                    "variant_title": "1 ml",
+                    "vendor": "Dermapharm AG"
+                }
+            ]
+        }
+    ]
+}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Example OpenAPI documentation",
   "scripts": {
-    "generate-docs": "redoc-cli bundle --options.redocFile=redoc-config.yaml api-spec.yaml -o docs/index.html",
+    "generate-docs": "redoc-cli bundle api-spec.yaml -o docs/index.html",
     "deploy-docs": "gh-pages -d docs"
   },
   "devDependencies": {
