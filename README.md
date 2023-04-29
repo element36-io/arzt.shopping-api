@@ -1,6 +1,6 @@
 # arzt.shopping API
 
-Endpoint to read orders of [arzt.shopping](https://hausarzt.shopping/pages/einefueralle).
+Endpoint to read orders from [arzt.shopping](https://hausarzt.shopping/pages/einefueralle).
 After you have [registered your location](https://docs.google.com/forms/d/e/1FAIpQLSe__jbfojNWyTDObs5MVVO23xlcmz-eqppRrHuclCTbgpCghg/viewform) you are eligable to  
 receive an API key to retrieve your orders via JSON/REST.
 
@@ -18,13 +18,14 @@ curl  https://europe-west6-cash36-prod-262508.cloudfunctions.net/testOrders?star
 -H "Content-Type: application/json"
 ```
 
-Generate documentation - you may change -g html2 with -g html or other targets. 
+Generate documentation with [openapi generator](https://openapi-generator.tech/)- you 
+may change ´-g html´ with ´-g html2´ or other targets.
 
 ```shell
 openapi-generator-cli generate -i api-spec.yaml -g html -o docs --generate-alias-as-model -config openapi-html-config.json
 ```
 
-Alternatively with:
+Alternatively generate docu with [redoc](https://redocly.com/):
 
 ```shell
 npm run generate-docs
