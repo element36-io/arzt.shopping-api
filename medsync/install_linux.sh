@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Function to remove existing cron entries for the script
 remove_existing_cron_entries() {
