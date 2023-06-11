@@ -1,13 +1,26 @@
 #!/bin/bash
 set -e
 
-
+branch="${1:-medisync}"
 download() {
     local filename=$1
 
     local url="${baseUrl}${filename}?ref=${branch}"
-    wget -O $filename $url | jq -r '.content' | base64 --decode 
+    wget -O - $url | jq -r '.content' | base64 --decode  > $fiename
 }
+
+baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/"
+
+download "install_linux.sh"
+chmod u+x ./install_linux.sh
+download "medsync.sh"
+chmod u+x ./medsync.sh
+download "medsync.txt"
+download "init.ps1"
+download "updater.ps1"
+download "updater.txt"
+
+
 # Function to remove existing cron entries for the script
 remove_existing_cron_entries() {
     local script_name="$1"
@@ -47,18 +60,6 @@ add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
 add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
 crontab -l
-
-branch="${1:-medisync}"
-baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/"
-
-download "install_linux.sh"
-chmod u+x ./install_linux.sh
-download "medsync.sh"
-chmod u+x ./medsync.sh
-download "medsync.txt"
-download "init.ps1"
-download "updater.ps1"
-download "updater.txt"
 
 
 
