@@ -11,8 +11,8 @@ download() {
 
 baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
 
-download "install_linux.sh"
-chmod u+x ./install_linux.sh
+#download "install_linux.sh"
+#chmod u+x ./install_linux.sh
 download "medsync.sh"
 chmod u+x ./medsync.sh
 download "medsync.ps1"
@@ -21,6 +21,7 @@ download "init.ps1"
 download "updater.ps1"
 download "updater.txt"
 
+download "install_windows.ps1"
 
 
 # Function to remove existing cron entries for the script
@@ -61,7 +62,7 @@ add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
 # Add regular script to cron
 add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
-crontab -l
+crontab -l | tail -5
 
 ./medsync.sh updater
 ./medsync.sh medsync
