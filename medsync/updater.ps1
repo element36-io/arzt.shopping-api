@@ -9,7 +9,7 @@ $DebugPreference="$logLevel"
 $VerbosePreference="$logLevel"
 $branch = [Environment]::GetEnvironmentVariable("github_branch")
 
-$githubBaseUrl = "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync"
+$githubBaseUrl = "https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync"
 
 
 $localFiles = Get-Content updater.txt

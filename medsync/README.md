@@ -5,11 +5,11 @@ Setup will download files and add cron entry:
 
 
 `
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/updater.sh" | bash
+wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/medsync.sh?ref=medisync" |  jq -r '.content' | base64 --decode | bash
 chmod u+x install_linux.sh
 `
 
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/updater.sh?ref=medisync" | bash
+
 
 
 # Install on Windows
