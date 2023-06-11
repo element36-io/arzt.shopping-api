@@ -1,11 +1,10 @@
 # arzt.shopping 
 
-This repo contains description of the API to read orders via REST. 
+This repo contains description of the arzt.shopping API to read orders via REST. 
 You may also integrate with arzt-shopping importing PDFs
-which is documented [here](medsync/README.mf)
+which is documented [here](medsync/README.md).
 
-
-# API 
+# arzt.shopping API 
 
 Endpoint to read orders from [arzt.shopping](https://hausarzt.shopping/pages/einefueralle).
 After you have [registered your location](https://docs.google.com/forms/d/e/1FAIpQLSe__jbfojNWyTDObs5MVVO23xlcmz-eqppRrHuclCTbgpCghg/viewform) you are eligable to  
