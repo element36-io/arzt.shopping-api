@@ -19,8 +19,12 @@ $scope = "https://www.googleapis.com/auth/devstorage.read_write"
 # Set the base URL for the Google Cloud Storage REST API
 $baseUri = "https://www.googleapis.com/storage/v1/b/${bucketName}/o"
 # Load the P12 file
-$p12FilePath = "key.p12"
+
 $p12Password = "notasecret"
+$p12FilePath = "key.p12"
+if (-not (Test-Path $p12FilePath)) {
+    $p12FilePath = "demo-key.p12"
+}
 
 $jwtHeader = @{
     alg = 'RS256'

@@ -41,12 +41,16 @@ add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 crontab -l
 
 branch="${1:-medisync}"
+baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/"
 
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/install_linux.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.ch
-chmod u+x install_linux.sh
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/medsync.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.ch
-chmod u+x medsync.sh
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/init.ps1?ref=${branch}" |  jq -r '.content' | base64 --decode > init.ps1
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/updater.ps1?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.ps1
-wget -O - "https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/updater.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.txt
+wget -O - "${baseUrl}install_linux.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > install_linux.ch
+chmod u+x ./install_linux.sh
+wget -O - "${baseUrl}medsync.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.ch
+chmod u+x ./medsync.sh
+wget -O - "${baseUrl}medsync.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.txt
+wget -O - "${baseUrl}init.ps1?ref=${branch}"    |  jq -r '.content' | base64 --decode > init.ps1
+wget -O - "${baseUrl}updater.ps1?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.ps1
+wget -O - "${baseUrl}updater.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.txt
+wget -O - "${baseUrl}updater.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.txt
+
 

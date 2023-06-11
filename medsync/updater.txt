@@ -1,2 +1,6 @@
 updater.txt
 install_windows.ps1
+medsynch.sh
+medsync.ps1
+updater.ps1
+install_linux.sh
