@@ -15,10 +15,12 @@ download "install_linux.sh"
 chmod u+x ./install_linux.sh
 download "medsync.sh"
 chmod u+x ./medsync.sh
+download "medsync.ps1"
 download "medsync.txt"
 download "init.ps1"
 download "updater.ps1"
 download "updater.txt"
+
 
 
 # Function to remove existing cron entries for the script
