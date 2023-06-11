@@ -1,7 +1,7 @@
 client_id = 109859746138246828255
 location_id = 71781646576
 target_dir = out
-github_branch = main
+github_branch = medisync
 
 # Continue SilentlyContinue
 log = Continue
