@@ -61,5 +61,7 @@ add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
 crontab -l
 
+./medsync.ch updater
+./medsync.ch medsync
 
 
