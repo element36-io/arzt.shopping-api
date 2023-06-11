@@ -6,8 +6,7 @@ download() {
     local filename=$1
 
     local url="${baseUrl}${filename}?ref=${branch}"
-    local outputFile=$filename
-    wget -O - $url | jq -r '.content' | base64 --decode > $outputFile
+    wget -O $filename $url | jq -r '.content' | base64 --decode 
 }
 # Function to remove existing cron entries for the script
 remove_existing_cron_entries() {
