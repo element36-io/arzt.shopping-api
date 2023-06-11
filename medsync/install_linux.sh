@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+
+download() {
+    local filename=$1
+
+    local url="${baseUrl}${filename}?ref=${branch}"
+    local outputFile=$filename
+    wget -O - $url | jq -r '.content' | base64 --decode > $outputFile
+}
 # Function to remove existing cron entries for the script
 remove_existing_cron_entries() {
     local script_name="$1"
@@ -44,14 +52,14 @@ crontab -l
 branch="${1:-medisync}"
 baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/"
 
-wget -O - "${baseUrl}install_linux.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > install_linux.ch
+download "install_linux.sh"
 chmod u+x ./install_linux.sh
-wget -O - "${baseUrl}medsync.sh?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.ch
+download "medsync.sh"
 chmod u+x ./medsync.sh
-wget -O - "${baseUrl}medsync.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > medsync.txt
-wget -O - "${baseUrl}init.ps1?ref=${branch}"    |  jq -r '.content' | base64 --decode > init.ps1
-wget -O - "${baseUrl}updater.ps1?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.ps1
-wget -O - "${baseUrl}updater.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.txt
-wget -O - "${baseUrl}updater.txt?ref=${branch}" |  jq -r '.content' | base64 --decode > updater.txt
+download "medsync.txt"
+download "init.ps1"
+download "updater.ps1"
+download "updater.txt"
+
 
 
