@@ -61,7 +61,10 @@ add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
 crontab -l
 
-./medsync.ch updater
-./medsync.ch medsync
+./medsync.sh updater
+./medsync.sh medsync
+
+echo "Installation successful."
+echo "Now add target directory, location-id to medsync.txt and your key.p12 (from mail@hausarzt.shopping) to the directory".
 
 
