@@ -6,10 +6,10 @@ download() {
     local filename=$1
 
     local url="${baseUrl}${filename}?ref=${branch}"
-    wget -O - $url | jq -r '.content' | base64 --decode  > $fiename
+    wget -O - $url | jq -r '.content' | base64 --decode  > $filename
 }
 
-baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents//medsync/"
+baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
 
 download "install_linux.sh"
 chmod u+x ./install_linux.sh
