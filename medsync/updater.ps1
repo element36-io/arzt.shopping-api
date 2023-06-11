@@ -27,15 +27,10 @@ foreach ($localFile in $localFiles) {
         $githubContent = (Invoke-RestMethod -Uri $githubContentUrl).content 
         $githubContent = [System.Text.Encoding]::UTF8.GetString(([System.Convert]::FromBase64String($githubContent)))
 
-        Write-Host "web: "$githubContent
-
         # Read the local file contents
         $localContent = Get-Content $localFile -Raw 
         
         # Compare the contents of the local file with GitHub content
-        Write-Host "..."
-        $localContent
-        $githubContent
         if ($localContent.Trim() -ne $githubContent.Trim()) {
             # Contents are different, update the local file
             Write-Host "Updating file $localFile from GitHub."
