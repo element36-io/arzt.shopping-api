@@ -7,9 +7,8 @@ $ErrorActionPreference = "Stop"
 # Import the init.psm1 module
 $modulePath = Join-Path -Path $PSScriptRoot -ChildPath "init.ps1" 
 Import-Module -Force -Scope Global -Name $modulePath
+Install-Module ScheduledTasks
 Import-Module ScheduledTasks
-
-
 
 [string]$baseUrl = "https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
 
@@ -32,11 +31,9 @@ function Download-FileFromGitHub {
     $localContent = Get-Content $localFile -Raw 
   
     Write-Host "Updating file $localFile from GitHub."
-    Set-Content -Path "${localFile}" -Value $githubContent
+    Set-Content -Path "x_${localFile}" -Value $githubContent
     Write-Host "File downloaded: $outputFile"
 }
-
-
 
 # Download files
 #Download-FileFromGitHub  -filename "install_windows.ps1"
@@ -89,7 +86,6 @@ $updaterParameters = "updater"
 $regularScriptName = "medsync.ps1"
 $regularSchedule = "*/5 * * * *"
 $regularParameters = "medsync"
-
 
 
 # Remove existing scheduled tasks for the updater script

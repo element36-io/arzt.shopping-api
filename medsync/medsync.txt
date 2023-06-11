@@ -1,7 +1,16 @@
+# DEMO client ID - used for authentication REPLACE IT WITH YOUR OWN
 client_id = 109859746138246828255
+
+# ID for demo.arzt.shopping - REPLACE IT WITH YOUR OWN
 location_id = 71781646576
+
+# directory where the PDF should be copied. 
+# Usually it is the same as where the scans are put
 target_dir = out
+
+# Usually main - leave as is. 
 github_branch = medisync
 
+# Logging - set one of these values
 # Continue SilentlyContinue
 log = Continue
