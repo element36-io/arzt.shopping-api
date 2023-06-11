@@ -1,5 +1,11 @@
-# arzt.shopping API 
+# arzt.shopping 
 
+This repo contains description of the API to read orders via REST. 
+You may also integrate with arzt-shopping importing PDFs
+which is documented [here](medsync/README.mf)
+
+
+# API 
 
 Endpoint to read orders from [arzt.shopping](https://hausarzt.shopping/pages/einefueralle).
 After you have [registered your location](https://docs.google.com/forms/d/e/1FAIpQLSe__jbfojNWyTDObs5MVVO23xlcmz-eqppRrHuclCTbgpCghg/viewform) you are eligable to  
@@ -10,9 +16,10 @@ We need an IP address (or range), the consensus of the practice
 and we wil provide an API key. 
 
 ## Useful links
-
+ 
 * [API documentation](https://element36-io.github.io/arzt.shopping-api/)
 * [Sample Response Json](sample-output.json)
+
 
 ## Test the API
 
