@@ -21,6 +21,11 @@ download() {
 
 baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
 
+check_package_installed "jp"
+check_package_installed "wget"
+check_package_installed "cl-base64"
+
+
 #download "install_linux.sh"
 #chmod u+x ./install_linux.sh
 download "medsync.sh"
@@ -72,9 +77,6 @@ add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
 # Add regular script to cron
 add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
-check_package_installed "jp"
-check_package_installed "wget"
-check_package_installed "cl-base64"
 
 
 
