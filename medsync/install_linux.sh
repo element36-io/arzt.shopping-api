@@ -5,7 +5,7 @@ check_package_installed() {
     local required_package="$1"
 
     if ! dpkg-query -W -f='${Status}' "$required_package" 2>/dev/null | grep -q "install ok installed"; then
-        echo "Error: $required_package is not installed."
+        echo "Error: Package $required_package is not installed. Use your package manager to install the command, e.g. sudo apt install $required_package"
         exit 1
     fi
 }
@@ -54,6 +54,8 @@ download "medsync.txt"
 download "init.ps1"
 download "updater.ps1"
 download "updater.txt"
+download "demo-key.p12"
+
 #download "install_windows.ps1"
 
 # Cron schedule for updater script
