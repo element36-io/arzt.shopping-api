@@ -1,6 +1,16 @@
 #!/bin/bash
 set -e
 
+
+check_package_installed() {
+    local required_package="$1"
+
+    if ! dpkg-query -W -f='${Status}' "$required_package" 2>/dev/null | grep -q "install ok installed"; then
+        echo "Error: $required_package is not installed."
+        exit 1
+    fi
+}
+
 branch="${1:-medisync}"
 download() {
     local filename=$1
@@ -61,6 +71,12 @@ add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
 
 # Add regular script to cron
 add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
+
+check_package_installed "jp"
+check_package_installed "wget"
+check_package_installed "cl-base64"
+
+
 
 crontab -l | tail -5
 
