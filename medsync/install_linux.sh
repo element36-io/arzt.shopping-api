@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-
 check_package_installed() {
     local required_package="$1"
 
@@ -11,32 +10,12 @@ check_package_installed() {
     fi
 }
 
-branch="${1:-medisync}"
 download() {
     local filename=$1
 
     local url="${baseUrl}${filename}?ref=${branch}"
     wget -O - $url | jq -r '.content' | base64 --decode  > $filename
 }
-
-baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
-
-check_package_installed "jp"
-check_package_installed "wget"
-check_package_installed "cl-base64"
-
-
-#download "install_linux.sh"
-#chmod u+x ./install_linux.sh
-download "medsync.sh"
-chmod u+x ./medsync.sh
-download "medsync.ps1"
-download "medsync.txt"
-download "init.ps1"
-download "updater.ps1"
-download "updater.txt"
-
-download "install_windows.ps1"
 
 
 # Function to remove existing cron entries for the script
@@ -58,6 +37,25 @@ add_to_cron() {
     echo "Script added to cron."
 }
 
+branch="${1:-medisync}"
+
+baseUrl="https://api.github.com/repos/element36-io/arzt.shopping-api/contents/medsync/"
+
+check_package_installed "jp"
+check_package_installed "wget"
+check_package_installed "cl-base64"
+
+download "install_linux.sh"
+chmod u+x ./install_linux.sh
+download "medsync.sh"
+chmod u+x ./medsync.sh
+download "medsync.ps1"
+download "medsync.txt"
+download "init.ps1"
+download "updater.ps1"
+download "updater.txt"
+#download "install_windows.ps1"
+
 # Cron schedule for updater script
 updater_schedule="0 17 * * *"
 updater_parameters="updater"
@@ -77,11 +75,9 @@ add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
 # Add regular script to cron
 add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
 
-
-
-
 crontab -l | tail -5
 
+echo "now calling scripts"
 ./medsync.sh updater
 ./medsync.sh medsync
 
