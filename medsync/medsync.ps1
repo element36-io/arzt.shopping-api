@@ -10,6 +10,7 @@ $branch = [Environment]::GetEnvironmentVariable("github_branch")
 $clientId = [Environment]::GetEnvironmentVariable("client_id")
 $destDirectory = [Environment]::GetEnvironmentVariable("target_dir")
 $logLevel =[Environment]::GetEnvironmentVariable("log")
+
 Write-Verbose "Vars: location_id: ${location_id}, github_branch: ${github_branch}, client_id: ${client_id}, target_dir: ${target_dir}, log: ${log}"
 $DebugPreference="$logLevel"
 $VerbosePreference="$logLevel"
