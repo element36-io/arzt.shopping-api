@@ -89,7 +89,7 @@ foreach ($file in $files) {
 
     # Download the file
     $downloadUrl = "${baseUri}/${fileName}?alt=media"
-    Write-Debug "download:" $downloadUrl
+    Write-Debug "download: ${downloadUrl}"
     Invoke-RestMethod -Uri $downloadUrl -Headers $headers -OutFile $localPath
     Write-Debug "check $localPath"
 
@@ -97,7 +97,7 @@ foreach ($file in $files) {
     if (Test-Path $localPath) {
         # File downloaded successfully, delete it from the bucket
         $deleteUrl = "${baseUri}/${fileName}"
-        Write-Debug "delete " $deleteUrl
+        Write-Debug "delete  $deleteUrl"
         Invoke-RestMethod -Uri $deleteUrl -Method DELETE -Headers $headers
 
         Write-Verbose "Downloaded and deleted: $fileName"
