@@ -46,12 +46,7 @@ jobs:
 
       - name: Get latest release version
         id: get_latest_release
-        run: |
-          if git describe --tags --abbrev=0 --exclude="*-*" > /dev/null 2>&1; then
-            echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
-          else
-            echo ::set-output name=version::v0.0.0
-          fi
+        run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
 
       - name: Extract release number
         id: extract_release_number
