@@ -10,13 +10,14 @@ jobs:
       - name: Check out repository code for PS1 
         uses: actions/checkout@v3
       - name: Install from PSGallery
-        shell: pwsh
+        shell: powershell
         run: |
+          $env:PSModulePath 
           Set-PSRepository PSGallery -InstallationPolicy Trusted       
           Install-Module ps2exe -Scope AllUsers
           Import-Module ps2exe -UseWindowsPowerShell
       - name: generate exe
-        shell: pwsh
+        shell: powershell
         run: |
           Invoke-ps2exe medsync/medsync.ps1 medsync/medsync.exe    
  
