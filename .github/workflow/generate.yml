@@ -1,15 +1,6 @@
 name: Generate OpenAPI Documentation and Exe file
 
-on:
-  push:
-    branches:
-      - main
-      - medisync
-  pull_request:
-    branches:
-      - main
-      - medisync      
-  workflow_dispatch:
+on: [push]
 
 jobs:
   build-medsync:
