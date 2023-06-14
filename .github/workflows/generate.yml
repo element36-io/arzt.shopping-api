@@ -3,24 +3,8 @@ name: Generate OpenAPI Documentation and Exe file
 on: [push]
 
 jobs:
-  build-medsync:
-    runs-on: windows-latest
-    name: Windows build
-    steps:
-      - name: Check out repository code for PS1 
-        uses: actions/checkout@v3
-      - name: Install from PSGallery
-        shell: pwsh
-        run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module ps2exe        
-      - name: generate exe
-        shell: pwsh
-        run: |
-          ps2exe medsync/medsync.ps1 medsync/medsync.exe    
   generate-docs:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
