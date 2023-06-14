@@ -19,7 +19,7 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module ps2exe        
-      - name: Perform a Pester test from the Tests.ps1 file
+      - name: generate exe
         shell: pwsh
         run: |
           ps2exe medsync/medsync.ps1 medsync/medsync.exe    
