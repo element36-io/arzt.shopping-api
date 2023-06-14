@@ -5,7 +5,10 @@ on:
     branches:
       - main
       - medisync
-      
+  pull_request:
+    branches:
+      - main
+      - medisync      
  
 jobs:
   build-medsync:
