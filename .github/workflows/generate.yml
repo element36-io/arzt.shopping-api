@@ -1,6 +1,13 @@
 name: Generate OpenAPI Documentation and Exe file
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
   generate-docs:
