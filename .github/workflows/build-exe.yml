@@ -15,7 +15,7 @@ jobs:
           $env:PSModulePath 
           Set-PSRepository PSGallery -InstallationPolicy Trusted       
           Install-Module ps2exe -Scope AllUsers
-          Import-Module ps2exe -UseWindowsPowerShell
+          Import-Module ps2exe
       - name: generate exe
         shell: powershell
         run: |
