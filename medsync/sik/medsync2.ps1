@@ -1,26 +1,15 @@
 $ErrorActionPreference = "Stop" 
 
-$filePath = "medsync.txt"
-# Read the property file as an associative array
-$properties = Get-Content -Path $filePath | ForEach-Object {
-    $line = $_.Trim()
-    if (-not [string]::IsNullOrWhiteSpace($line) -and -not $line.StartsWith("#")) {
-        $parts = $line -split "\s*=\s*", 2
-        if ($parts.Count -eq 2) {
-            $parts[0] = $parts[0].Trim()
-            $parts[1] = $parts[1].Trim()
-            [PSCustomObject]@{ Key = $parts[0]; Value = $parts[1] }
-        }
-    }
-}
+# Import the init.psm1 module
+$modulePath = Join-Path -Path $PSScriptRoot -ChildPath "init.ps1" 
+Import-Module -Force -Scope Global -Name $modulePath
 
 
-$locationId = $properties | Where-Object { $_.Key -eq "location_id" } | Select-Object -ExpandProperty Value
-$branch =  $properties | Where-Object { $_.Key -eq "github_branch" } | Select-Object -ExpandProperty Value
-$clientId = $properties | Where-Object { $_.Key -eq "client_id" } | Select-Object -ExpandProperty Value
-$destDirectory = $properties | Where-Object { $_.Key -eq "target_dir" } | Select-Object -ExpandProperty Value
-$logLevel =$properties | Where-Object { $_.Key -eq "log" } | Select-Object -ExpandProperty Value
-
+$locationId = [Environment]::GetEnvironmentVariable("location_id")
+$branch = [Environment]::GetEnvironmentVariable("github_branch")
+$clientId = [Environment]::GetEnvironmentVariable("client_id")
+$destDirectory = [Environment]::GetEnvironmentVariable("target_dir")
+$logLevel =[Environment]::GetEnvironmentVariable("log")
 Write-Verbose "Vars (medsync.ps1): location_id: ${location_id}, github_branch: ${github_branch}, client_id: ${client_id}, target_dir: ${target_dir}, log: ${log}"
 
 $DebugPreference="$logLevel"
@@ -36,14 +25,8 @@ $baseUri = "https://www.googleapis.com/storage/v1/b/${bucketName}/o"
 $p12Password = "notasecret"
 $p12FilePath = "key.p12"
 if (-not (Test-Path $p12FilePath)) {
-    Write-Host "--> USING DEMO KEY"
     $p12FilePath = "demo-key.p12"
 }
-if (-not (Test-Path $destDirectory)) {
-    Write-Host "--> output directory not found"
-    Exit 1
-}
-
 
 $jwtHeader = @{
     alg = 'RS256'

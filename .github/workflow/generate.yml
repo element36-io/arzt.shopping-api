@@ -1,14 +1,23 @@
-name: Generate OpenAPI Documentation
+name: Generate OpenAPI Documentation and Exe file
 
-on:
-  push:
-    branches:
-      - main  # Replace with the name of your main branch, if different
-  pull_request:
-    branches:
-      - main  # Replace with the name of your main branch, if different
+on: push
 
 jobs:
+  build-medsync:
+    runs-on: windows-latest
+    name: Pester test
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install from PSGallery
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module ps2exe        
+      - name: Perform a Pester test from the Tests.ps1 file
+        shell: pwsh
+        run: |
+          ps2exe medsync/medsync.ps1 medsync/medsync.exe    
   generate-docs:
     runs-on: ubuntu-latest
 
@@ -32,3 +41,5 @@ jobs:
         git add docs
         git commit -m "Generate OpenAPI documentation"
         git push
+
+

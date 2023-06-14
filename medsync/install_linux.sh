@@ -68,22 +68,22 @@ regular_parameters="medsync"
 
 scriptname="medsync.sh"
 
-# Remove existing cron entries for the updater script
-remove_existing_cron_entries "$scriptname"
-
-# Add updater script to cron
-add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
-
-# Add regular script to cron
-add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
-
-crontab -l | tail -5
-
+# call both script with demo-key to test it
+mkdir out
 echo "now calling scripts"
 ./medsync.sh updater
 ./medsync.sh medsync
 
-echo "Installation successful."
+
+# Remove existing cron entries for the updater script
+remove_existing_cron_entries "$scriptname"
+# Add updater script to cron
+add_to_cron "$updater_schedule" "$scriptname" "$updater_parameters"
+# Add regular script to cron
+add_to_cron "$regular_schedule" "$scriptname" "$regular_parameters"
+crontab -l | tail -5
+
+echo "Installation successful, added to Cron. "
 echo "Now add target directory, location-id to medsync.txt and your key.p12 (from mail@hausarzt.shopping) to the directory".
 
 
