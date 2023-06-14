@@ -9,7 +9,8 @@ on:
     branches:
       - main
       - medisync      
- 
+  workflow_dispatch:
+
 jobs:
   build-medsync:
     runs-on: windows-latest
