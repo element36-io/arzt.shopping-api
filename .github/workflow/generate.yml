@@ -1,7 +1,12 @@
 name: Generate OpenAPI Documentation and Exe file
 
-on: push
-
+on:
+  push:
+    branches:
+      - main
+      - medisync
+      
+ 
 jobs:
   build-medsync:
     runs-on: windows-latest
