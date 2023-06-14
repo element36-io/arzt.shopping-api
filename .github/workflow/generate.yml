@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - medisync
-      
+  workflow_dispatch:
  
 jobs:
   generate-docs:
