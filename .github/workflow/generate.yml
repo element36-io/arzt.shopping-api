@@ -1,6 +1,11 @@
 name: Generate OpenAPI Documentation
 
-on: push
+on:
+  push:
+    branches:
+      - main
+      - medisync
+      
  
 jobs:
   generate-docs:
