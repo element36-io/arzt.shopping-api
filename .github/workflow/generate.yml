@@ -1,13 +1,7 @@
 name: Generate OpenAPI Documentation
 
-on:
-  push:
-    branches:
-      - main  # Replace with the name of your main branch, if different
-  pull_request:
-    branches:
-      - main  # Replace with the name of your main branch, if different
-
+on: push
+ 
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
