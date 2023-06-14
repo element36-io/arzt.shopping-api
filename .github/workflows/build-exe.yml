@@ -19,5 +19,5 @@ jobs:
       - name: generate exe
         shell: powershell
         run: |
-          Invoke-ps2exe medsync/medsync.ps1 medsync/medsync.exe    
+          ps2exe medsync/medsync.ps1 medsync/medsync.exe    
  
