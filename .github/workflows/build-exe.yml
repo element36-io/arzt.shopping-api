@@ -20,6 +20,7 @@ jobs:
         shell: powershell
         run: |
           ps2exe medsync/medsync.ps1 medsync/medsync.exe    
+
  
       - name: Upload artifact
         # if: ${{ github.ref != 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
@@ -28,13 +29,42 @@ jobs:
           name: medsync
           path: medsync/medsync.exe
 
+      - name: Create zip file for linux
+        run: Compress-Archive -Path "medsync/medsync.exe", "medsync/medsync.sh", "medsync/medsync.ps1", "medsync/medsync.txt" -DestinationPath "medsync/medsync.zip"
+
+
+      - name: Upload release assets
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: medsync/medsync.zip
+          asset_name: medsync.zip
+          asset_content_type: application/zip          
+
+      - name: Get latest release version
+        id: get_latest_release
+        run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
+
+      - name: Extract release number
+        id: extract_release_number
+        run: |
+          $latestRelease = '${{ steps.get_latest_release.outputs.version }}'
+          $releaseNumber = $latestRelease -replace 'v(\d+)\..+', '$1'
+          echo "::set-output name=release_number::$releaseNumber"
+
       - name: Create Release
         # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         with:
-          tag_name: v1.0.0  # Replace with the desired release tag
-          release_name: Release v1.0.0  # Replace with the desired release name
+          tag_name: v${{ steps.extract_release_number.outputs.release_number }}
+          release_name: Release v${{ steps.extract_release_number.outputs.release_number }}
+           
           body: |
             Description of the release          
 
@@ -45,11 +75,21 @@ jobs:
           name: medsync-artifact
           path: downloaded-artifact
 
-      - name: Upload release asset
+      - name: Upload release assets
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: downloaded-artifact/medsync/medsync.exe
-          asset_name: medsync.exe
-          asset_content_type: application/octet-stream            
+          asset_path: medsync/medsync.zip
+          asset_name: medsync-v${{ steps.extract_release_number.outputs.release_number }}.zip
+          asset_content_type: application/zip
+      - name: Upload release assets
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: medsync/medsync.exe
