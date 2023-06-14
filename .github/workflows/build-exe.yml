@@ -48,12 +48,14 @@ jobs:
         id: get_latest_release
         run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
 
-      - name: Extract release number
-        id: extract_release_number
+      - name: Get latest release version
+        id: get_latest_release
         run: |
-          $latestRelease = '${{ steps.get_latest_release.outputs.version }}'
-          $releaseNumber = $latestRelease -replace 'v(\d+)\..+', '$1'
-          echo "::set-output name=release_number::$releaseNumber"
+          if git describe --tags --abbrev=0 --exclude="*-*" > /dev/null 2>&1; then
+            echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
+          else
+            echo ::set-output name=version::v0.0.0
+          fi
 
       - name: Create Release
         # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
