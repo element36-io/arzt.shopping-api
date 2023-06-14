@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build-medsync:
     runs-on: windows-latest
-    name: Windows build
+    name: Windows build  #https://github.com/MScholtes/PS2EXE/issues/82
     steps:
       - name: Check out repository code for PS1 
         uses: actions/checkout@v3
@@ -25,5 +25,31 @@ jobs:
         # if: ${{ github.ref != 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v2
         with:
-          name: medsync-artifact
+          name: medsync
           path: medsync/medsync.exe
+
+      - name: Create Release
+        # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: v1.0.0  # Replace with the desired release tag
+          release_name: Release v1.0.0  # Replace with the desired release name
+          body: |
+            Description of the release          
+
+      - name: Download artifact
+        id: download_artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: medsync-artifact
+          path: downloaded-artifact
+
+      - name: Upload release asset
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: downloaded-artifact/medsync/medsync.exe
+          asset_name: medsync.exe
+          asset_content_type: application/octet-stream            
