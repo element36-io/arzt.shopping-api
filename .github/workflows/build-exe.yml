@@ -48,6 +48,7 @@ jobs:
         id: get_latest_release
         run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
 
+
       - name: Extract release number
         id: extract_release_number
         run: |
