@@ -79,13 +79,6 @@ jobs:
           body: |
             Description of the release          
 
-      - name: Download artifact
-        id: download_artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: medsync-artifact
-          path: downloaded-artifact
-
       - name: Upload release assets zip
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         uses: actions/upload-release-asset@v1
