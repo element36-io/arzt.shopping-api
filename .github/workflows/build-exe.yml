@@ -22,27 +22,28 @@ jobs:
           ps2exe medsync/medsync.ps1 medsync/medsync.exe    
 
  
-      - name: Upload artifact
-        # if: ${{ github.ref != 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: medsync
-          path: medsync/medsync.exe
+      # - name: Upload artifact
+      #   # if: ${{ github.ref != 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: medsync
+      #     path: medsync/medsync.exe
 
       - name: Create zip file for linux
         run: Compress-Archive -Path "medsync/medsync.exe", "medsync/medsync.sh", "medsync/medsync.ps1", "medsync/medsync.txt" -DestinationPath "medsync/medsync.zip"
 
 
-      - name: Upload release assets
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: medsync/medsync.zip
-          asset_name: medsync.zip
-          asset_content_type: application/zip    
+      # - name: Upload release assets
+      #   if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: medsync/medsync.zip
+      #     asset_name: medsync.zip
+      #     asset_content_type: application/zip    
+
       - name: Set up environment
         run: |
           echo "VERSION=$(Get-Date -Format 'yy.MM.ddHHmm')" >> $env:GITHUB_ENV
@@ -60,12 +61,12 @@ jobs:
           VERSION: ${{ env.VERSION }}
         with:
           tag_name: v${{env.VERSION}}
-          release_name: Release v$env:VERSION
+          release_name: Release v${{ env.VERSION }}
           body: |
             Script to synchronize arzt.shopping with patient systems        
 
       - name: Upload release assets zip
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
@@ -76,7 +77,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload release assets exe
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+        # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
