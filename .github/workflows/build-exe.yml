@@ -53,16 +53,16 @@ jobs:
           Write-Host "Current Version: $version"          
 
       - name: Create Release
-        # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ env.VERSION }}
         with:
-          tag_name: v${{env:VERSION}}
-          release_name: Release v${{env:VERSION}}
+          tag_name: v$env:VERSION
+          release_name: Release v$env:VERSION
           body: |
-            Script to synchronize with patient systems        
+            Script to synchronize arzt.shopping with patient systems        
 
       - name: Upload release assets zip
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
