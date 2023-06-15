@@ -49,7 +49,7 @@ jobs:
         run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
 
 
-      - name: Extract release number
+      - name: Extract release number and add one
         id: extract_release_number
         run: |
           $latestRelease = '${{ steps.get_latest_release.outputs.version }}'
