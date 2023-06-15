@@ -30,7 +30,7 @@ jobs:
       #     path: medsync/medsync.exe
 
       - name: Create zip file for linux
-        run: Compress-Archive -Path "medsync/medsync.exe", "medsync/medsync.sh", "medsync/medsync.ps1", "medsync/medsync.txt" -DestinationPath "medsync/medsync.zip"
+        run: Compress-Archive -Path "medsync/medsync.exe", "medsync/medsync.sh", "medsync/medsync.ps1", "medsync/medsync.txt", "demo-key.p12" -DestinationPath "medsync/medsync.zip"
 
 
       # - name: Upload release assets

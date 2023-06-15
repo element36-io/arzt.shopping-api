@@ -1,4 +1,6 @@
 $ErrorActionPreference = "Stop" 
+$timestamp = Get-Date -Format o | ForEach-Object { $_ -replace “:”, “.” }
+Write-Host $timestamp
 
 $filePath = "medsync.txt"
 # Read the property file as an associative array
@@ -125,3 +127,5 @@ foreach ($file in $files) {
         Write-Warning "Failed to download: $fileName"
     }
 }
+
+Stop-Transcript
