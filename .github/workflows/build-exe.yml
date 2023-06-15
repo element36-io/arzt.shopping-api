@@ -43,15 +43,19 @@ jobs:
           asset_path: medsync/medsync.zip
           asset_name: medsync.zip
           asset_content_type: application/zip    
-                
+
       - name: Get latest release version
         id: get_latest_release
         run: |
           if (git describe --tags --abbrev=0 --exclude="*-*" > $null 2>&1) {
+            echo "test 1"
             echo "::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")"
+            echo "test 2"
           }
           else {
+            echo "test 3"
             echo "::set-output name=version::v0.0.0"
+            echo "test 4"
           }
 
 
