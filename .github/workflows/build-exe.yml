@@ -42,11 +42,17 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: medsync/medsync.zip
           asset_name: medsync.zip
-          asset_content_type: application/zip          
-
+          asset_content_type: application/zip    
+                
       - name: Get latest release version
         id: get_latest_release
-        run: echo ::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")
+        run: |
+          if (git describe --tags --abbrev=0 --exclude="*-*" > $null 2>&1) {
+            echo "::set-output name=version::$(git describe --tags --abbrev=0 --exclude="*-*")"
+          }
+          else {
+            echo "::set-output name=version::v0.0.0"
+          }
 
 
       - name: Extract release number and add one
