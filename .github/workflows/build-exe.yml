@@ -44,27 +44,11 @@ jobs:
           asset_name: medsync.zip
           asset_content_type: application/zip    
 
-      - name: Get latest release version
-        id: get_latest_release
-        run: |
-          $version = git describe --tags --abbrev=0 --exclude="*-*" 2>$null
-          if ($LASTEXITCODE -eq 0 -and $version) {
-            Write-Host "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
-          else {
-            Write-Host "VERSION=v0.0.10" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
-          Write-Host "lv:$LASTEXITCODE v:$version env:$env:GITHUB_ENV"
-          exit 0
-
       - name: Extract release number and add one
         id: extract_release_number
         run: |
-          $latestRelease = $env:VERSION
-          $releaseNumber = $latestRelease -replace 'v(\d+)\..+', '$1'
-          Write-Host "rel: $latestRelease nr:  $releaseNumber"
-          Write-Host 'rel: $latestRelease nr:  $releaseNumber'
-          
+          echo "##vso[task.setvariable variable=VERSION]$(Get-Date -Format 'yyyy-MM-dd-HH:mm')"
+          $releaseNumber = $env:VERSION
           Write-Host "::set-output name=release_number::$releaseNumber"
 
       - name: Create Release
