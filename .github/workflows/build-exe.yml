@@ -59,7 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         with:
-          tag_name: v${{env:VERSION}}
+          tag_name: "v${{env:VERSION}}"
           release_name: "Release v${{env:VERSION}}"
           body: |
             Description of the release          
@@ -72,7 +72,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: medsync/medsync.zip
-          asset_name: medsync-v${env:VERSION}.zip
+          asset_name: "medsync-v${env:VERSION}.zip"
           asset_content_type: application/zip
       - name: Upload release assets exe
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
@@ -82,5 +82,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: medsync/medsync.exe
-          asset_name: medsync-v${{env:VERSION}}.zip
+          asset_name: "medsync-v${{env:VERSION}}.zip"
           asset_content_type: application/octet-stream
