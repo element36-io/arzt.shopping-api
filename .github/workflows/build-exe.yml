@@ -49,19 +49,20 @@ jobs:
         run: |
           $version = git describe --tags --abbrev=0 --exclude="*-*" 2>$null
           if ($LASTEXITCODE -eq 0 -and $version) {
-            (echo "::set-output name=version::$version") 2>$null
+            Write-Host "::set-output name=version::$version" 2>$null
           }
           else {
-            (echo "::set-output name=version::v0.0.0") 2>$null
+            Write-Host "::set-output name=version::v0.0.0" 2>$null
           }
-          echo 'lv:$LASTEXITCODE v:$version ouput:${{ steps.get_latest_release.outputs.version }}'
+          Write-Host "lv:$LASTEXITCODE v:$version ouput:"
 
       - name: Extract release number and add one
         id: extract_release_number
         run: |
           $latestRelease = '${{ steps.get_latest_release.outputs.version }}'
           $releaseNumber = $latestRelease -replace 'v(\d+)\..+', '$1'
-          echo "::set-output name=release_number::$releaseNumber"
+          Write-Host "rel: $latestRelease nr:  $releaseNumber"
+          Write-Host "::set-output name=release_number::$releaseNumber"
 
       - name: Create Release
         # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
