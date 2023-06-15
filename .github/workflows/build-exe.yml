@@ -54,7 +54,7 @@ jobs:
           else {
             (echo "::set-output name=version::v0.0.0") 2>$null
           }
-
+          echo "$LASTEXITCODE $version ${{ steps.get_latest_release.outputs.version }}"
 
       - name: Extract release number and add one
         id: extract_release_number
