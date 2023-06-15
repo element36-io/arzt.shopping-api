@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "##vso[task.setvariable variable=VERSION]$(Get-Date -Format 'yyyy-MM-dd-HH:mm')"
           $releaseNumber = $env:VERSION
-          Write-Host "::set-output name=release_number::$releaseNumber"
+          Write-Host "$releaseNumber"
 
       - name: Create Release
         # if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
@@ -58,8 +58,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         with:
-          tag_name: v${releaseNumber}
-          release_name: "Release v${releaseNumber}"
+          tag_name: v${env:VERSION}
+          release_name: "Release v${env:VERSION}"
           body: |
             Description of the release          
 
@@ -71,7 +71,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: medsync/medsync.zip
-          asset_name: medsync-v${releaseNumber}.zip
+          asset_name: medsync-v${env:VERSION}.zip
           asset_content_type: application/zip
       - name: Upload release assets exe
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
@@ -81,5 +81,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: medsync/medsync.exe
-          asset_name: medsync-v${releaseNumber}.zip
+          asset_name: medsync-v${env:VERSION}.zip
           asset_content_type: application/octet-stream
