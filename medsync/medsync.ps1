@@ -1,11 +1,11 @@
+Start-Transcript -Path ".\medsync.log" -Append
 $ErrorActionPreference = "Stop" 
 $timestamp = Get-Date -Format o | ForEach-Object { $_ -replace “:”, “.” }
 Write-Host $timestamp
 $wd=Get-Location 
 Write-Output $wd
-Write-Output $PSVersionTable
-$algs=[System.Security.Cryptography.CryptoConfig]::ImplementedAlgorithms
-Write-Output $algs
+#Write-Output $PSVersionTable
+
 
 $filePath = "${wd}/medsync.txt"
 # Read the property file as an associative array
@@ -162,4 +162,4 @@ foreach ($file in $files) {
 }
 
 Write-Host done
-#Stop-Transcript
+Stop-Transcript
