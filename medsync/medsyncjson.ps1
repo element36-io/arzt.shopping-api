@@ -1,8 +1,13 @@
 $ErrorActionPreference = "Stop" 
 $timestamp = Get-Date -Format o | ForEach-Object { $_ -replace “:”, “.” }
 Write-Host $timestamp
+$wd=Get-Location 
+Write-Output $wd
+Write-Output $PSVersionTable
+$algs=[System.Security.Cryptography.CryptoConfig]::ImplementedAlgorithms
+Write-Output $algs
 
-$filePath = "medsync.txt"
+$filePath = "${wd}/medsync.txt"
 # Read the property file as an associative array
 $properties = Get-Content -Path $filePath | ForEach-Object {
     $line = $_.Trim()
@@ -36,12 +41,12 @@ $baseUri = "https://www.googleapis.com/storage/v1/b/${bucketName}/o"
 # Load the P12 file
 
 $p12Password = "notasecret"
-$p12FilePath = "key.p12"
+$p12FilePath = "${wd}/key.p12"
 if (-not (Test-Path $p12FilePath)) {
     Write-Host "--> USING DEMO KEY"
-    $p12FilePath = "demo-key.p12"
+    $p12FilePath = "${wd}/demo-key.p12"
 }
-if (-not (Test-Path $destDirectory)) {
+if (-not (Test-Path "${wd}/$destDirectory")) {
     Write-Host "--> output directory not found"
     Exit 1
 }
@@ -54,7 +59,8 @@ $jwtHeader = @{
 #Write-Host "jwtHeader" ($jwtHeader | ConvertTo-Json -Compress)
 $encodedJwtHeader = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(($jwtHeader | ConvertTo-Json -Compress)))
 
-$time=[int][math]::Truncate((Get-Date -UFormat "%s")) 
+$time = (Invoke-RestMethod -Uri "http://worldtimeapi.org/api/timezone/Europe/Zurich").unixtime
+
 $jwtPayload = @{
     iss = $clientEmail
     sub = 'walter.strametz@element36.io'
@@ -69,18 +75,26 @@ $encodedJwtPayload = [System.Convert]::ToBase64String([System.Text.Encoding]::UT
 
 # Create the JWT signature
 $dataToSign = $encodedJwtHeader + '.' + $encodedJwtPayload
+$store = New-Object System.Security.Cryptography.X509Certificates.X509Store("My", [System.Security.Cryptography.X509Certificates.StoreLocation]::LocalMachine)
+try {
+    $store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly -bor [System.Security.Cryptography.X509Certificates.OpenFlags]::OpenExistingOnly)
+    $fcollection = $store.Certificates.Find([System.Security.Cryptography.X509Certificates.X509FindType]::FindByIssuerName, $clientId, $false)
+    $certificate=$fcollection[0]
+} catch {
+    $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($p12FilePath,$p12Password)
+}
+$rsaProvider= $certificate.privateKey
+$rsaProvider2 = New-Object System.Security.Cryptography.RSACryptoServiceProvider
+$params=$rsaProvider.ExportParameters($true)
+if ($params.Flags) {
+    $params.Flags = $cspParams.Flags -bor [System.Security.Cryptography.CspProviderFlags]::Exportable
+    $params.Flags = $cspParams.Flags -bor [System.Security.Cryptography.CspProviderFlags]::MachineKeySet
+}
+$rsaProvider2.ImportParameters($params)
 
-$fileBytes = [System.IO.File]::ReadAllBytes($p12FilePath)
-$certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($fileBytes,$p12Password)
-# bouncycastle alternative: https://chat.openai.com/share/9baf5d5a-a2db-4db5-94c4-b29b89303e96
-$signedData = $certificate.privateKey.SignData(
-    [system.text.encoding]::utf8.getbytes($dataToSign), 
-    [System.Security.Cryptography.HashAlgorithmName]::SHA256,
-    [System.Security.Cryptography.RSASignaturePadding]::Pkcs1) 
-
-Write-Host --------------
-$signedData
-Write-Host --------------
+$sha256 = [System.Security.Cryptography.HashAlgorithmName]::SHA256 #[System.Security.Cryptography.SHA256]::Create()
+$pkcs1 =  [System.Security.Cryptography.RSASignaturePadding]::Pkcs1
+$signedData = $rsaProvider2.SignData([system.text.encoding]::utf8.getbytes($dataToSign), $sha256, $pkcs1) 
 
 $signedData64= [System.Convert]::ToBase64String($signedData)
 
@@ -90,8 +104,15 @@ $authParams = @{
     grant_type    = "urn:ietf:params:oauth:grant-type:jwt-bearer"
     assertion     = $submit
 }
-    
-$response = Invoke-RestMethod -Uri 'https://oauth2.googleapis.com/token' -Method POST -Body $authParams
+try {
+    $response = Invoke-RestMethod -Uri 'https://oauth2.googleapis.com/token' -Method POST -Body $authParams
+} catch {
+    $streamReader = [System.IO.StreamReader]::new($_.Exception.Response.GetResponseStream())
+    $ErrResp = $streamReader.ReadToEnd()
+    $ErrResp
+    $streamReader.Close()
+    Exit 3
+}
 $accessToken = $response.access_token
 if ( ($accessToken -eq $null) -or ($accessToken -eq '') ) {
     Write-Warning "no token, quitting".
@@ -140,4 +161,5 @@ foreach ($file in $files) {
     }
 }
 
+Write-Host done
 #Stop-Transcript
