@@ -53,6 +53,7 @@ $jwtHeader = @{
 }
 #Write-Host "jwtHeader" ($jwtHeader | ConvertTo-Json -Compress)
 $encodedJwtHeader = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(($jwtHeader | ConvertTo-Json -Compress)))
+
 $time=[int][math]::Truncate((Get-Date -UFormat "%s")) 
 $jwtPayload = @{
     iss = $clientEmail
@@ -69,7 +70,8 @@ $encodedJwtPayload = [System.Convert]::ToBase64String([System.Text.Encoding]::UT
 # Create the JWT signature
 $dataToSign = $encodedJwtHeader + '.' + $encodedJwtPayload
 
-$certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($p12FilePath,$p12Password)
+$fileBytes = [System.IO.File]::ReadAllBytes($p12FilePath)
+$certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($fileBytes,$p12Password)
 # bouncycastle alternative: https://chat.openai.com/share/9baf5d5a-a2db-4db5-94c4-b29b89303e96
 $signedData = $certificate.privateKey.SignData(
     [system.text.encoding]::utf8.getbytes($dataToSign), 
